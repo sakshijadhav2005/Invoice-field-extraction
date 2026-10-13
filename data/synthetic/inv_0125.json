@@ -1,0 +1,11 @@
+{
+  "vendor": "Harbour Engineering Ltd",
+  "invoice_number": "DOC-2026-1125",
+  "invoice_date": "2026-12-11",
+  "due_date": "2027-02-09",
+  "subtotal": 4420.0,
+  "tax": 0.0,
+  "total": 4420.0,
+  "currency": "GBP",
+  "doc_type": "invoice"
+}

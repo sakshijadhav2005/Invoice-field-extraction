@@ -1,0 +1,11 @@
+{
+  "vendor": "Vanguard Dynamics Ltd",
+  "invoice_number": "KC-2026-1072",
+  "invoice_date": "2026-01-17",
+  "due_date": "2026-02-16",
+  "subtotal": 4980.0,
+  "tax": 0.0,
+  "total": 4980.0,
+  "currency": "GBP",
+  "doc_type": "invoice"
+}

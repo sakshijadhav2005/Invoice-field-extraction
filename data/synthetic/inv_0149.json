@@ -1,0 +1,11 @@
+{
+  "vendor": "Kestrel Components Inc.",
+  "invoice_number": "REF-2026-1149",
+  "invoice_date": "2026-05-25",
+  "due_date": null,
+  "subtotal": 1520.0,
+  "tax": 304.0,
+  "total": 1824.0,
+  "currency": "USD",
+  "doc_type": "invoice"
+}

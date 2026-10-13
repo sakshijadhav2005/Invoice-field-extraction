@@ -1,0 +1,11 @@
+{
+  "vendor": "unknown",
+  "invoice_number": "RE-2026-1056",
+  "invoice_date": "2026-09-13",
+  "due_date": "2026-10-18",
+  "subtotal": 4950.0,
+  "tax": 990.0,
+  "total": 5940.0,
+  "currency": "USD",
+  "doc_type": "invoice"
+}

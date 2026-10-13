@@ -1,0 +1,11 @@
+{
+  "vendor": "Vanguard Dynamics Ltd",
+  "invoice_number": "REF-2026-1094",
+  "invoice_date": "2026-07-09",
+  "due_date": "2026-08-13",
+  "subtotal": 1190.0,
+  "tax": 214.2,
+  "total": 1404.2,
+  "currency": "GBP",
+  "doc_type": "invoice"
+}

@@ -1,0 +1,11 @@
+{
+  "vendor": "unknown",
+  "invoice_number": "BL-2026-1126",
+  "invoice_date": "2026-08-25",
+  "due_date": "2026-09-08",
+  "subtotal": 4130.0,
+  "tax": 206.5,
+  "total": 4336.5,
+  "currency": null,
+  "doc_type": "invoice"
+}

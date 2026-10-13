@@ -1,0 +1,11 @@
+{
+  "vendor": "Apex Systems Pvt Ltd",
+  "invoice_number": "BL-2026-1075",
+  "invoice_date": "2026-07-27",
+  "due_date": "2026-08-26",
+  "subtotal": 4070.0,
+  "tax": 203.5,
+  "total": 4273.5,
+  "currency": "INR",
+  "doc_type": "invoice"
+}

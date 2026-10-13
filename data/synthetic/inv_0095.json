@@ -1,0 +1,11 @@
+{
+  "vendor": "Apex Systems Pvt Ltd",
+  "invoice_number": null,
+  "invoice_date": null,
+  "due_date": null,
+  "subtotal": null,
+  "tax": null,
+  "total": null,
+  "currency": null,
+  "doc_type": "quotation"
+}

@@ -1,0 +1,11 @@
+{
+  "vendor": "unknown",
+  "invoice_number": "BL-2026-1014",
+  "invoice_date": "2026-04-12",
+  "due_date": "2026-04-26",
+  "subtotal": 2040.0,
+  "tax": 408.0,
+  "total": 2448.0,
+  "currency": "USD",
+  "doc_type": "invoice"
+}

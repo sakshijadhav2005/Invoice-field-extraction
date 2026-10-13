@@ -1,0 +1,11 @@
+{
+  "vendor": "unknown",
+  "invoice_number": "KC-2026-1028",
+  "invoice_date": "2026-06-05",
+  "due_date": "2026-06-25",
+  "subtotal": 2060.0,
+  "tax": 412.0,
+  "total": 2472.0,
+  "currency": "USD",
+  "doc_type": "invoice"
+}

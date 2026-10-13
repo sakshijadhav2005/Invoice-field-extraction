@@ -1,0 +1,11 @@
+{
+  "vendor": "Meridian Industrial GmbH",
+  "invoice_number": "RE-2026-1020",
+  "invoice_date": "2026-01-25",
+  "due_date": null,
+  "subtotal": 4960.0,
+  "tax": 496.0,
+  "total": 5456.0,
+  "currency": "EUR",
+  "doc_type": "invoice"
+}
