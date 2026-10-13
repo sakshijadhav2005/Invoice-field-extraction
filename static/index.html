@@ -3,21 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bruviti Invoice Field Extractor</title>
+    <title>Bruviti Invoice Field Extractor | Use Case 3</title>
     <style>
+        /* =========================================================
+           GOLDEN RATIO DESIGN SYSTEM (φ ≈ 1.618)
+           Proportional typography, spacing, border radii, and layout
+           ========================================================= */
         :root {
-            --bg-primary: #0f172a;
-            --bg-secondary: #1e293b;
-            --bg-card: rgba(30, 41, 59, 0.7);
-            --border-color: #334155;
+            --phi: 1.618;
+            --phi-inv: 0.618;
+
+            /* Golden Spacing Scale */
+            --space-2xs: 0.236rem;
+            --space-xs:  0.382rem;
+            --space-sm:  0.618rem;
+            --space-md:  1.000rem;
+            --space-lg:  1.618rem;
+            --space-xl:  2.618rem;
+            --space-2xl: 4.236rem;
+
+            /* Golden Typography Scale (base 16px) */
+            --font-xs:   0.764rem;
+            --font-sm:   0.854rem;
+            --font-base: 1.000rem;
+            --font-md:   1.180rem;
+            --font-lg:   1.618rem;
+            --font-xl:   2.618rem;
+
+            /* Golden Border Radii */
+            --radius-sm: 8px;
+            --radius-md: 13px;   /* 8 * 1.618 */
+            --radius-lg: 21px;   /* 13 * 1.618 */
+            --radius-pill: 9999px;
+
+            /* Obsidian & Cyber-Teal Dark Palette */
+            --bg-deep: #060911;
+            --bg-elevated: #0d1322;
+            --bg-card: rgba(16, 24, 42, 0.75);
+            --bg-card-hover: rgba(22, 33, 58, 0.85);
+            --bg-glass: rgba(255, 255, 255, 0.03);
+
+            --border-subtle: rgba(148, 163, 184, 0.12);
+            --border-highlight: rgba(56, 189, 248, 0.38);
+            --border-active: #38bdf8;
+
+            --accent-cyan: #06b6d4;
+            --accent-sky: #38bdf8;
+            --accent-blue: #3b82f6;
+            --accent-indigo: #6366f1;
+            --accent-emerald: #10b981;
+            --accent-amber: #f59e0b;
+            --accent-rose: #f43f5e;
+
             --text-primary: #f8fafc;
-            --text-muted: #94a3b8;
-            --accent-primary: #38bdf8;
-            --accent-glow: rgba(56, 189, 248, 0.25);
-            --accent-success: #10b981;
-            --accent-warning: #f59e0b;
-            --accent-danger: #ef4444;
-            --font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            --text-secondary: #94a3b8;
+            --text-tertiary: #64748b;
+
+            --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Courier New', monospace;
         }
 
         * {
@@ -27,263 +70,414 @@
         }
 
         body {
-            font-family: var(--font-family);
-            background-color: var(--bg-primary);
+            font-family: var(--font-sans);
+            background-color: var(--bg-deep);
             color: var(--text-primary);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 2rem 1rem;
+            padding: var(--space-xl) var(--space-md);
             background-image: 
-                radial-gradient(circle at 15% 20%, rgba(56, 189, 248, 0.08) 0%, transparent 40%),
-                radial-gradient(circle at 85% 80%, rgba(16, 185, 129, 0.08) 0%, transparent 40%);
+                radial-gradient(ellipse 61.8% 38.2% at 50% 0%, rgba(56, 189, 248, 0.12) 0%, transparent 61.8%),
+                radial-gradient(ellipse 38.2% 61.8% at 90% 90%, rgba(99, 102, 241, 0.08) 0%, transparent 61.8%),
+                radial-gradient(ellipse 50% 50% at 10% 80%, rgba(16, 185, 129, 0.06) 0%, transparent 50%);
+            background-attachment: fixed;
+            -webkit-font-smoothing: antialiased;
         }
 
         .container {
-            max-width: 1050px;
+            max-width: 1200px;
             width: 100%;
         }
 
+        /* ================= Header Section ================= */
         header {
             text-align: center;
-            margin-bottom: 2rem;
+            margin-bottom: var(--space-xl);
+            position: relative;
+        }
+
+        .badge-bar {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-sm);
+            padding: var(--space-xs) var(--space-md);
+            background: rgba(56, 189, 248, 0.08);
+            border: 1px solid rgba(56, 189, 248, 0.25);
+            border-radius: var(--radius-pill);
+            margin-bottom: var(--space-sm);
+            font-size: var(--font-xs);
+            color: var(--accent-sky);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-weight: 600;
+        }
+
+        .badge-bar .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent-emerald);
+            box-shadow: 0 0 10px var(--accent-emerald);
+            animation: pulse-dot 2s infinite ease-in-out;
+        }
+
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(0.85); }
         }
 
         header h1 {
-            font-size: 2.25rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #38bdf8, #818cf8);
+            font-size: var(--font-xl);
+            font-weight: 800;
+            letter-spacing: -0.025em;
+            line-height: 1.15;
+            background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 40%, #38bdf8 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 0.5rem;
+            margin-bottom: var(--space-xs);
         }
 
         header p {
-            color: var(--text-muted);
-            font-size: 1rem;
+            color: var(--text-secondary);
+            font-size: var(--font-md);
+            max-width: 680px;
+            margin: 0 auto;
+            line-height: 1.5;
         }
 
+        /* ================= Cards & Containers ================= */
         .card {
             background: var(--bg-card);
-            backdrop-filter: blur(12px);
-            border: 1px solid var(--border-color);
-            border-radius: 1rem;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
-            transition: border-color 0.2s ease;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: var(--space-lg);
+            margin-bottom: var(--space-lg);
+            box-shadow: 
+                0 4px 6px -1px rgba(0, 0, 0, 0.2),
+                0 20px 25px -5px rgba(0, 0, 0, 0.35);
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
         }
 
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.25), transparent);
+        }
+
+        /* ================= Dropzone (Golden Proportions) ================= */
         .drop-zone {
-            border: 2px dashed var(--border-color);
-            border-radius: 0.75rem;
-            padding: 2.5rem 1.5rem;
+            border: 2px dashed rgba(148, 163, 184, 0.2);
+            border-radius: var(--radius-md);
+            padding: var(--space-xl) var(--space-lg);
             text-align: center;
             cursor: pointer;
-            transition: all 0.2s ease;
-            background: rgba(15, 23, 42, 0.4);
+            transition: all 0.25s ease;
+            background: rgba(13, 19, 34, 0.4);
+            position: relative;
         }
 
         .drop-zone:hover, .drop-zone.dragover {
-            border-color: var(--accent-primary);
-            background: var(--accent-glow);
+            border-color: var(--accent-sky);
+            background: rgba(56, 189, 248, 0.05);
+            box-shadow: inset 0 0 24px rgba(56, 189, 248, 0.08);
+            transform: translateY(-1px);
         }
 
-        .drop-zone svg {
-            width: 48px;
-            height: 48px;
-            stroke: var(--accent-primary);
-            margin-bottom: 0.75rem;
+        .icon-circle {
+            width: 56px;
+            height: 56px;
+            margin: 0 auto var(--space-sm);
+            border-radius: 50%;
+            background: rgba(56, 189, 248, 0.1);
+            border: 1px solid rgba(56, 189, 248, 0.25);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.25s ease, background 0.25s ease;
+        }
+
+        .drop-zone:hover .icon-circle {
+            transform: scale(1.08);
+            background: rgba(56, 189, 248, 0.18);
+        }
+
+        .icon-circle svg {
+            width: 28px;
+            height: 28px;
+            stroke: var(--accent-sky);
         }
 
         .drop-zone-text {
-            font-size: 1.1rem;
-            margin-bottom: 0.25rem;
+            font-size: var(--font-md);
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: var(--space-2xs);
         }
 
         .drop-zone-sub {
-            color: var(--text-muted);
-            font-size: 0.875rem;
+            color: var(--text-secondary);
+            font-size: var(--font-sm);
         }
 
         #file-input {
             display: none;
         }
 
+        /* ================= Action Bar ================= */
         .action-bar {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-top: 1rem;
-            gap: 1rem;
+            margin-top: var(--space-md);
+            padding-top: var(--space-sm);
+            border-top: 1px solid var(--border-subtle);
+            gap: var(--space-md);
         }
 
         .file-info {
-            color: var(--text-muted);
-            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-size: var(--font-sm);
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: var(--space-xs);
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
+            font-family: var(--font-mono);
         }
 
         .btn {
-            background: linear-gradient(135deg, #0284c7, #2563eb);
-            color: white;
-            border: none;
-            padding: 0.75rem 1.75rem;
-            border-radius: 0.5rem;
+            background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: var(--space-sm) var(--space-lg);
+            border-radius: var(--radius-sm);
             font-weight: 600;
-            font-size: 1rem;
+            font-size: var(--font-sm);
             cursor: pointer;
-            transition: transform 0.15s ease, box-shadow 0.15s ease;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
             display: inline-flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: var(--space-xs);
+            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
         }
 
         .btn:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.5);
+            filter: brightness(1.08);
+        }
+
+        .btn:active {
+            transform: translateY(0);
         }
 
         .btn:disabled {
-            opacity: 0.5;
+            opacity: 0.45;
             cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
+            transform: none !important;
+            box-shadow: none !important;
+            filter: none;
         }
 
-        .grid-2 {
+        /* ================= Error Banner ================= */
+        #error-banner {
+            display: none;
+            margin-top: var(--space-md);
+            padding: var(--space-sm) var(--space-md);
+            border-radius: var(--radius-sm);
+            background: rgba(244, 63, 94, 0.12);
+            border: 1px solid rgba(244, 63, 94, 0.35);
+            color: #fda4af;
+            font-size: var(--font-sm);
+            display: flex;
+            align-items: center;
+            gap: var(--space-xs);
+            animation: slide-in 0.25s ease-out;
+        }
+
+        @keyframes slide-in {
+            from { opacity: 0; transform: translateY(-6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ================= Golden Ratio Grid ================= */
+        /* Exact 1.618 : 1 column ratio for field tables vs JSON inspector */
+        .golden-grid {
             display: grid;
-            grid-template-columns: 1.2fr 0.8fr;
-            gap: 1.5rem;
+            grid-template-columns: 1.618fr 1fr;
+            gap: var(--space-lg);
+            align-items: start;
         }
 
-        @media (max-width: 768px) {
-            .grid-2 {
+        @media (max-width: 960px) {
+            .golden-grid {
                 grid-template-columns: 1fr;
             }
         }
 
         .section-title {
-            font-size: 1.15rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
+            font-size: var(--font-md);
+            font-weight: 700;
+            margin-bottom: var(--space-md);
             display: flex;
             align-items: center;
             justify-content: space-between;
+            letter-spacing: -0.01em;
         }
 
+        .section-title .title-left {
+            display: flex;
+            align-items: center;
+            gap: var(--space-xs);
+        }
+
+        /* ================= Results Table ================= */
         table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 0.95rem;
+            font-size: var(--font-sm);
         }
 
         th, td {
-            padding: 0.75rem 0.5rem;
+            padding: var(--space-sm) var(--space-xs);
             text-align: left;
-            border-bottom: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-subtle);
         }
 
         th {
-            color: var(--text-muted);
-            font-weight: 500;
-            font-size: 0.85rem;
+            color: var(--text-tertiary);
+            font-weight: 600;
+            font-size: var(--font-xs);
             text-transform: uppercase;
-            letter-spacing: 0.05em;
+            letter-spacing: 0.08em;
+            padding-bottom: var(--space-sm);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
         }
 
         .field-name {
             font-weight: 600;
-            color: #cbd5e1;
+            color: var(--text-secondary);
+            width: 25%;
         }
 
         .field-val {
-            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            font-family: var(--font-mono);
             color: #e2e8f0;
+            font-weight: 500;
             word-break: break-all;
         }
 
+        .field-val.null-val {
+            color: var(--text-tertiary);
+            font-style: italic;
+        }
+
         .conf-cell {
-            width: 140px;
+            width: 32%;
         }
 
         .conf-wrapper {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: var(--space-xs);
         }
 
         .conf-bar-bg {
             flex: 1;
-            height: 6px;
-            background: #334155;
-            border-radius: 3px;
+            height: 7px;
+            background: rgba(148, 163, 184, 0.15);
+            border-radius: var(--radius-pill);
             overflow: hidden;
+            position: relative;
         }
 
         .conf-bar-fill {
             height: 100%;
-            border-radius: 3px;
-            transition: width 0.4s ease;
+            border-radius: var(--radius-pill);
+            transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
         }
 
         .conf-label {
-            font-size: 0.8rem;
-            font-family: monospace;
-            width: 36px;
+            font-size: var(--font-xs);
+            font-family: var(--font-mono);
+            font-weight: 600;
+            width: 38px;
             text-align: right;
         }
 
-        .json-viewer {
-            background: #090d16;
-            border: 1px solid var(--border-color);
-            border-radius: 0.5rem;
-            padding: 1rem;
-            max-height: 420px;
-            overflow: auto;
-            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-            font-size: 0.85rem;
-            color: #38bdf8;
-            white-space: pre-wrap;
-        }
-
+        /* ================= Warnings Box ================= */
         .warnings-box {
-            background: rgba(245, 158, 11, 0.1);
-            border: 1px solid rgba(245, 158, 11, 0.3);
-            border-radius: 0.5rem;
-            padding: 1rem;
-            margin-top: 1rem;
+            background: rgba(245, 158, 11, 0.08);
+            border: 1px solid rgba(245, 158, 11, 0.28);
+            border-radius: var(--radius-sm);
+            padding: var(--space-md);
+            margin-top: var(--space-md);
+            animation: slide-in 0.3s ease;
         }
 
         .warnings-box h4 {
-            color: var(--accent-warning);
-            margin-bottom: 0.5rem;
-            font-size: 0.95rem;
+            color: var(--accent-amber);
+            margin-bottom: var(--space-xs);
+            font-size: var(--font-sm);
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: var(--space-xs);
         }
 
         .warnings-box ul {
-            padding-left: 1.25rem;
-            color: #fbbf24;
-            font-size: 0.875rem;
+            padding-left: var(--space-md);
+            color: #fde68a;
+            font-size: var(--font-xs);
+            line-height: 1.6;
         }
 
+        /* ================= JSON Viewer ================= */
+        .json-viewer {
+            background: #040711;
+            border: 1px solid rgba(56, 189, 248, 0.18);
+            border-radius: var(--radius-sm);
+            padding: var(--space-md);
+            max-height: 480px;
+            overflow: auto;
+            font-family: var(--font-mono);
+            font-size: var(--font-xs);
+            color: #38bdf8;
+            white-space: pre-wrap;
+            line-height: 1.5;
+            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.6);
+        }
+
+        /* ================= Badges & Micro-animations ================= */
         .status-badge {
-            display: inline-block;
-            padding: 0.2rem 0.6rem;
-            border-radius: 9999px;
-            font-size: 0.75rem;
-            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            padding: 0.2rem var(--space-sm);
+            border-radius: var(--radius-pill);
+            font-size: var(--font-xs);
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
         }
 
-        .badge-ready { background: rgba(16, 185, 129, 0.2); color: #34d399; }
-        .badge-loading { background: rgba(56, 189, 248, 0.2); color: #38bdf8; }
-        .badge-error { background: rgba(239, 68, 68, 0.2); color: #f87171; }
+        .badge-ready   { background: rgba(16, 185, 129, 0.18); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.35); }
+        .badge-loading { background: rgba(56, 189, 248, 0.18); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.35); }
+        .badge-error   { background: rgba(244, 63, 94, 0.18);  color: #f87171; border: 1px solid rgba(244, 63, 94, 0.35); }
 
         .spinner {
             display: inline-block;
@@ -291,46 +485,71 @@
             height: 14px;
             border: 2px solid rgba(255, 255, 255, 0.3);
             border-radius: 50%;
-            border-top-color: white;
-            animation: spin 0.8s linear infinite;
+            border-top-color: #ffffff;
+            animation: spin 0.75s linear infinite;
         }
 
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
+
+        footer {
+            margin-top: var(--space-2xl);
+            text-align: center;
+            color: var(--text-tertiary);
+            font-size: var(--font-xs);
+        }
     </style>
 </head>
 <body>
     <div class="container">
+        <!-- Header -->
         <header>
+            <div class="badge-bar">
+                <span class="dot"></span>
+                <span>Use Case 3 · Offline Inference Engine</span>
+            </div>
             <h1>Invoice Field Extractor</h1>
-            <p>Fast, offline-first invoice information extraction engine</p>
+            <p>High-precision header field extraction from digital PDFs with text layers, country-aware date disambiguation, and calibrated confidence scores.</p>
         </header>
 
+        <!-- Upload Card -->
         <div class="card">
             <div class="drop-zone" id="drop-zone">
-                <svg fill="none" stroke-width="1.7" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
-                </svg>
-                <div class="drop-zone-text">Click to choose or drag & drop an invoice PDF</div>
-                <div class="drop-zone-sub">PDF files with text layer (scanned/OCR out of scope)</div>
+                <div class="icon-circle">
+                    <svg fill="none" stroke-width="1.8" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
+                    </svg>
+                </div>
+                <div class="drop-zone-text">Click or drag & drop an invoice PDF here</div>
+                <div class="drop-zone-sub">Supports PDF invoices with text layer (scanned/handwritten out of scope)</div>
                 <input type="file" id="file-input" accept="application/pdf" />
             </div>
 
             <div class="action-bar">
-                <div class="file-info" id="file-info">No file selected</div>
+                <div class="file-info" id="file-info">
+                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/>
+                    </svg>
+                    <span>No file selected</span>
+                </div>
                 <button class="btn" id="extract-btn" disabled>
                     <span id="btn-text">Extract Fields</span>
                 </button>
             </div>
-            <div id="error-banner" style="display: none; margin-top: 1rem; padding: 0.85rem 1rem; border-radius: 8px; background: rgba(239, 68, 68, 0.15); border: 1px solid var(--danger); color: #fca5a5; font-size: 0.9rem;"></div>
+
+            <div id="error-banner"></div>
         </div>
 
-        <div class="grid-2" id="results-area" style="display: none;">
+        <!-- Results Section (Golden Ratio 1.618 : 1 Columns) -->
+        <div class="golden-grid" id="results-area" style="display: none;">
+            <!-- Primary Golden Column (61.8%): Formatted Table -->
             <div class="card">
                 <div class="section-title">
-                    <span>Extracted Fields</span>
-                    <span id="status-badge" class="status-badge badge-ready">Done</span>
+                    <div class="title-left">
+                        <span>Extracted Metadata</span>
+                    </div>
+                    <span id="status-badge" class="status-badge badge-ready">Extracted</span>
                 </div>
                 <table>
                     <thead>
@@ -341,24 +560,34 @@
                         </tr>
                     </thead>
                     <tbody id="fields-table-body">
-                        <!-- Populated by JS -->
+                        <!-- Populated by JavaScript -->
                     </tbody>
                 </table>
 
                 <div id="warnings-container" style="display: none;" class="warnings-box">
-                    <h4>Warnings & Flags</h4>
+                    <h4>
+                        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"/>
+                        </svg>
+                        <span>Warnings & Rule Verifications</span>
+                    </h4>
                     <ul id="warnings-list"></ul>
                 </div>
             </div>
 
+            <!-- Secondary Golden Column (38.2%): Live JSON Stream -->
             <div class="card">
                 <div class="section-title">
                     <span>API Response JSON</span>
-                    <button class="btn" style="padding: 0.25rem 0.75rem; font-size: 0.8rem;" id="copy-json-btn">Copy</button>
+                    <button class="btn" style="padding: 0.3rem 0.8rem; font-size: var(--font-xs);" id="copy-json-btn">Copy JSON</button>
                 </div>
                 <div class="json-viewer" id="json-viewer">{}</div>
             </div>
         </div>
+
+        <footer>
+            Bruviti Campus Drive 2026 · Confidential Take-Home Assignment · 100% Offline Python Service
+        </footer>
     </div>
 
     <script>
@@ -404,29 +633,52 @@
         });
 
         function handleFile(file) {
-            if (errorBanner) errorBanner.style.display = 'none';
+            hideError();
             if (file.type !== 'application/pdf' && !file.name.toLowerCase().endsWith('.pdf')) {
-                showError('Please select a valid .pdf document.');
+                showError('Please upload a valid .pdf document.');
                 return;
             }
             selectedFile = file;
-            fileInfo.textContent = `${file.name} (${(file.size / 1024).toFixed(1)} KB)`;
+            fileInfo.innerHTML = `
+                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/>
+                </svg>
+                <span>${escapeHtml(file.name)} (${(file.size / 1024).toFixed(1)} KB)</span>
+            `;
             extractBtn.disabled = false;
         }
 
         function showError(msg) {
             if (errorBanner) {
-                errorBanner.style.display = 'block';
-                errorBanner.textContent = 'Upload Error: ' + msg;
+                errorBanner.style.display = 'flex';
+                errorBanner.innerHTML = `
+                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="flex-shrink:0;">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z"/>
+                    </svg>
+                    <span><strong>Error:</strong> ${escapeHtml(msg)}</span>
+                `;
             }
             statusBadge.className = 'status-badge badge-error';
             statusBadge.textContent = 'Error';
         }
 
+        function hideError() {
+            if (errorBanner) {
+                errorBanner.style.display = 'none';
+                errorBanner.innerHTML = '';
+            }
+        }
+
+        function escapeHtml(str) {
+            return String(str).replace(/[&<>"']/g, function(m) {
+                return {'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[m];
+            });
+        }
+
         extractBtn.addEventListener('click', async () => {
             if (!selectedFile) return;
 
-            if (errorBanner) errorBanner.style.display = 'none';
+            hideError();
             extractBtn.disabled = true;
             btnText.innerHTML = '<span class="spinner"></span> Extracting...';
             statusBadge.className = 'status-badge badge-loading';
@@ -475,24 +727,26 @@
 
             fieldsTableBody.innerHTML = '';
             fields.forEach(f => {
-                const val = data[f.key] !== null && data[f.key] !== undefined ? data[f.key] : '—';
+                const rawVal = data[f.key];
+                const isNull = rawVal === null || rawVal === undefined;
+                const valStr = isNull ? 'null' : String(rawVal);
                 const conf = (data.confidence && data.confidence[f.key] !== undefined) ? data.confidence[f.key] : 0;
                 const confPercent = Math.round(conf * 100);
 
-                let barColor = '#10b981';
-                if (conf < 0.6) barColor = '#ef4444';
-                else if (conf < 0.85) barColor = '#f59e0b';
+                let barColor = '#10b981'; // Green
+                if (conf < 0.6) barColor = '#f43f5e'; // Red
+                else if (conf < 0.85) barColor = '#f59e0b'; // Amber
 
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
                     <td class="field-name">${f.label}</td>
-                    <td class="field-val">${val}</td>
+                    <td class="field-val ${isNull ? 'null-val' : ''}">${escapeHtml(valStr)}</td>
                     <td class="conf-cell">
                         <div class="conf-wrapper">
                             <div class="conf-bar-bg">
                                 <div class="conf-bar-fill" style="width: ${confPercent}%; background-color: ${barColor};"></div>
                             </div>
-                            <span class="conf-label">${confPercent}%</span>
+                            <span class="conf-label" style="color: ${barColor}">${confPercent}%</span>
                         </div>
                     </td>
                 `;
@@ -501,7 +755,7 @@
 
             if (data.warnings && data.warnings.length > 0) {
                 warningsContainer.style.display = 'block';
-                warningsList.innerHTML = data.warnings.map(w => `<li>${w}</li>`).join('');
+                warningsList.innerHTML = data.warnings.map(w => `<li>${escapeHtml(w)}</li>`).join('');
             } else {
                 warningsContainer.style.display = 'none';
             }
@@ -510,7 +764,7 @@
         copyJsonBtn.addEventListener('click', () => {
             navigator.clipboard.writeText(jsonViewer.textContent);
             copyJsonBtn.textContent = 'Copied!';
-            setTimeout(() => { copyJsonBtn.textContent = 'Copy'; }, 1500);
+            setTimeout(() => { copyJsonBtn.textContent = 'Copy JSON'; }, 1500);
         });
     </script>
 </body>
