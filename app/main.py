@@ -58,7 +58,7 @@ async def extract_invoice(file: UploadFile = File(...)):
         )
 
     # 3. Basic PDF signature check
-    if not content.startswith(b"%PDF"):
+    if b"%PDF" not in content[:1024]:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="File content does not have a valid PDF header."
