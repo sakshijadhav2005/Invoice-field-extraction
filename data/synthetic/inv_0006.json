@@ -1,11 +1,11 @@
 {
-  "vendor": "Vanguard Dynamics Ltd",
+  "vendor": "Pinecrest Packaging",
   "invoice_number": "KC-2026-1006",
   "invoice_date": "2026-11-23",
   "due_date": null,
   "subtotal": 1320.0,
   "tax": 66.0,
   "total": 1386.0,
-  "currency": "GBP",
+  "currency": "INR",
   "doc_type": "invoice"
 }

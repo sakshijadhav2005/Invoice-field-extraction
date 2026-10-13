@@ -43,33 +43,31 @@ Once the server is running on port 8000:
 ```bash
 curl -X POST "http://localhost:8000/extract" \
   -H "accept: application/json" \
-  -F "file=@data/appendix_n/appendix_n_example_1.pdf"
+  -F "file=@data/appendix_n/northwind_1042.pdf"
 ```
 
-### Response Schema
+### Response Schema (Example 1: Northwind Traders)
 ```json
 {
-  "invoice_number": "INV-2026-001",
+  "vendor": "Northwind Traders",
+  "invoice_number": "NW-1042",
   "invoice_date": "2026-09-03",
   "due_date": "2026-10-03",
-  "subtotal": 1200.0,
-  "tax": 240.0,
-  "total": 1440.0,
   "currency": "GBP",
-  "vendor": "Harbour Engineering Ltd",
+  "subtotal": 361.6,
+  "tax": 72.32,
+  "total": 433.92,
   "confidence": {
+    "vendor": 0.98,
     "invoice_number": 0.95,
-    "invoice_date": 0.8,
-    "due_date": 0.95,
-    "subtotal": 0.98,
-    "tax": 0.98,
-    "total": 0.98,
-    "currency": 0.98,
-    "vendor": 0.97
+    "invoice_date": 0.9,
+    "due_date": 0.9,
+    "currency": 0.95,
+    "subtotal": 0.97,
+    "tax": 0.97,
+    "total": 0.97
   },
-  "warnings": [
-    "Date 03/09/2026 read as day-first (UK vendor)."
-  ]
+  "warnings": []
 }
 ```
 
@@ -82,7 +80,7 @@ Run the complete test suite (unit tests, golden tests, business rules, API contr
 pytest -s
 ```
 
-All 54 tests pass in under 7 seconds.
+All 58 tests pass in under 7 seconds.
 
 ### Latency Performance
 ```
@@ -109,7 +107,7 @@ python scripts/eval.py --all
 Options:
 - `python scripts/eval.py` : Evaluates synthetic dev set (150 files).
 - `python scripts/eval.py --holdout` : Evaluates held-out validation set (35 files).
-- `python scripts/eval.py --appendix` : Evaluates Appendix N reference invoices (2 files).
+- `python scripts/eval.py --appendix` : Evaluates Appendix N reference invoices (3 files).
 - `python scripts/eval.py --all` : Evaluates all datasets.
 
 ---

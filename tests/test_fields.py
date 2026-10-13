@@ -7,7 +7,7 @@ from app.fields import extract_invoice_fields
 def test_extract_fields_standard_invoice():
     buf = io.BytesIO()
     c = canvas.Canvas(buf)
-    c.drawString(50, 780, "Harbour Engineering Ltd")
+    c.drawString(50, 780, "Blue Harbour Logistics Ltd")
     c.drawString(50, 765, "12 Temple Way, Bristol, UK")
     c.drawString(50, 750, "VAT No GB123456789")
     
@@ -25,7 +25,7 @@ def test_extract_fields_standard_invoice():
     doc_info = extract_pdf_document(buf.getvalue())
     resp = extract_invoice_fields(doc_info)
     
-    assert resp.vendor == "Harbour Engineering Ltd"
+    assert resp.vendor == "Blue Harbour Logistics"
     assert resp.currency == "GBP"
     assert resp.invoice_number == "INV-2026-99"
     assert resp.invoice_date == "2026-09-03"
@@ -53,7 +53,7 @@ def test_extract_fields_terms_only_rule_o1():
     doc_info = extract_pdf_document(buf.getvalue())
     resp = extract_invoice_fields(doc_info)
     
-    assert resp.vendor == "Kestrel Components Inc."
+    assert resp.vendor == "Kestrel Components"
     assert resp.currency == "USD"
     assert resp.invoice_number == "KC-5544"
     # US vendor: 09/03/2026 -> 2026-09-03
@@ -86,7 +86,7 @@ def test_extract_fields_arithmetic_mismatch_rule_o2():
 def test_extract_fields_non_invoice_rule_o4():
     buf = io.BytesIO()
     c = canvas.Canvas(buf)
-    c.drawString(50, 780, "Harbour Engineering Ltd")
+    c.drawString(50, 780, "Blue Harbour Logistics Ltd")
     c.drawString(50, 750, "QUOTATION")
     c.drawString(50, 730, "Quote #: Q-999")
     c.drawString(50, 650, "Total: £1,200.00")
@@ -97,7 +97,7 @@ def test_extract_fields_non_invoice_rule_o4():
     resp = extract_invoice_fields(doc_info)
 
     # All extraction fields null, vendor preserved, warning added
-    assert resp.vendor == "Harbour Engineering Ltd"
+    assert resp.vendor == "Blue Harbour Logistics"
     assert resp.invoice_number is None
     assert resp.subtotal is None
     assert resp.total is None

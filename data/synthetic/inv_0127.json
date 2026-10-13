@@ -1,11 +1,11 @@
 {
-  "vendor": "Apex Systems Pvt Ltd",
+  "vendor": "Sakura Precision",
   "invoice_number": "REF-2026-1127",
   "invoice_date": "2026-06-11",
   "due_date": "2026-08-10",
   "subtotal": 4890.0,
-  "tax": 244.5,
-  "total": 5134.5,
-  "currency": "INR",
+  "tax": 244.0,
+  "total": 5134.0,
+  "currency": "JPY",
   "doc_type": "invoice"
 }

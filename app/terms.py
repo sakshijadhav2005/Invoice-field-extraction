@@ -100,4 +100,8 @@ def resolve_due_date(
         )
 
     # Case 3: Neither exists
-    return DueDateResult(due_date_iso=None, confidence=0.0, warnings=[])
+    return DueDateResult(
+        due_date_iso=None,
+        confidence=0.0,
+        warnings=["No due date or payment terms found."]
+    )

@@ -1,7 +1,6 @@
-import os
 from pathlib import Path
 from fastapi import FastAPI, File, UploadFile, HTTPException, status
-from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi.responses import HTMLResponse
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.schema import ExtractionResponse, ConfidenceScores

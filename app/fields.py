@@ -1,7 +1,7 @@
 import re
-from typing import Dict, List, Optional, Tuple
+from typing import List, Optional, Tuple
 from app.schema import ExtractionResponse, ConfidenceScores
-from app.pdf_text import DocumentInfo, LineBox, WordBox
+from app.pdf_text import DocumentInfo, LineBox
 from app.vendor import match_vendor
 from app.doctype import classify_document
 from app.currency import resolve_currency
@@ -286,6 +286,7 @@ def extract_invoice_fields(doc_info: DocumentInfo) -> ExtractionResponse:
                     all_warnings.extend(d_res.warnings)
 
     inv_date_val = best_inv_date
+    inv_date_conf = best_inv_score
 
     # 6b. Direct regex scanning for explicit date labels
     if not inv_date_val:

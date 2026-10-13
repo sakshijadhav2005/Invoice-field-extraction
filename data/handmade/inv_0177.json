@@ -1,11 +1,11 @@
 {
-  "vendor": "Sakura Precision K.K.",
+  "vendor": "Meridian Industrial",
   "invoice_number": "INV-2026-1177",
   "invoice_date": "2026-05-27",
   "due_date": null,
   "subtotal": 1380.0,
   "tax": 138.0,
   "total": 1518.0,
-  "currency": "JPY",
+  "currency": "EUR",
   "doc_type": "invoice"
 }

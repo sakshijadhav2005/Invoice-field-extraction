@@ -1,5 +1,5 @@
 import re
-from typing import Dict, List, Optional
+from typing import List, Optional
 from pydantic import BaseModel
 from rapidfuzz import fuzz
 
@@ -19,52 +19,70 @@ class VendorInfo(BaseModel):
 
 CANONICAL_VENDORS: List[VendorInfo] = [
     VendorInfo(
-        canonical_name="Harbour Engineering Ltd",
+        canonical_name="Northwind Traders",
         country="UK",
         default_currency="GBP",
-        aliases=["Harbour Engineering", "Harbor Engineering", "Harbor Engineering Inc", "Harbour Engineering Limited"],
-        cities=["bristol", "bath", "united kingdom", "uk"],
-        tax_patterns=[r'\bGB\d{9}\b', r'VAT\s*No\s*GB']
+        aliases=[
+            "Northwind Traders", "NORTHWIND TRADERS LTD", "Northwind Traders Ltd",
+            "Northwind Traders Limited", "Northwind Traders Inc"
+        ],
+        cities=["bristol", "quay street", "united kingdom", "uk"],
+        tax_patterns=[r'\bGB\s*\d{3}\s*\d{4}\s*\d{2}\b', r'\bGB\d{9}\b', r'VAT\s*No\.?\s*GB']
     ),
     VendorInfo(
-        canonical_name="Kestrel Components Inc.",
+        canonical_name="Blue Harbour Logistics",
+        country="UK",
+        default_currency="GBP",
+        aliases=[
+            "Blue Harbour Logistics", "Blue Harbor Logistics", "Blue Harbour Logistics Ltd",
+            "Blue Harbor Logistics Inc", "Harbour Engineering Ltd", "Harbour Engineering", "Harbor Engineering"
+        ],
+        cities=["bristol", "bath", "london", "united kingdom", "uk"],
+        tax_patterns=[r'\bGB\d{9}\b', r'VAT\s*No\.?\s*GB']
+    ),
+    VendorInfo(
+        canonical_name="Kestrel Components",
         country="US",
         default_currency="USD",
-        aliases=["Kestrel Components", "Kestrel Components Inc", "Kestrel Components LLC"],
-        cities=["dayton", "ohio", "usa", "united states"],
-        tax_patterns=[r'\bEIN\s*\d{2}-\d{7}\b']
+        aliases=[
+            "Kestrel Components", "Kestrel Components Inc.", "Kestrel Components Inc",
+            "Kestrel Components LLC", "KESTREL COMPONENTS INC"
+        ],
+        cities=["dayton", "ohio", "oh", "industrial pkwy", "usa", "united states"],
+        tax_patterns=[r'\bEIN\s*\d{2}-\d{7}\b', r'\b\d{2}-\d{7}\b']
     ),
     VendorInfo(
-        canonical_name="Meridian Industrial GmbH",
+        canonical_name="Meridian Industrial",
         country="DE",
         default_currency="EUR",
-        aliases=["Meridian Industrial", "Meridan Industrial", "Meridian Industrial GmbH"],
+        aliases=[
+            "Meridian Industrial", "Meridian Industrial GmbH", "Meridan Industrial",
+            "Meridan Industrial GmbH", "MERIDIAN INDUSTRIAL GMBH"
+        ],
         cities=["berlin", "munich", "germany", "deutschland"],
         tax_patterns=[r'\bDE\d{9}\b', r'USt-IdNr']
     ),
     VendorInfo(
-        canonical_name="Sakura Precision K.K.",
+        canonical_name="Sakura Precision",
         country="JP",
         default_currency="JPY",
-        aliases=["Sakura Precision", "Sakura Precison", "Sakura Precision KK", "Sakura Precision Co., Ltd."],
+        aliases=[
+            "Sakura Precision", "Sakura Precision K.K.", "Sakura Precision KK",
+            "Sakura Precison", "Sakura Precision Co., Ltd.", "サクラプレシジョン"
+        ],
         cities=["tokyo", "osaka", "japan", "日本"],
         tax_patterns=[r'\bT\d{13}\b']
     ),
     VendorInfo(
-        canonical_name="Apex Systems Pvt Ltd",
+        canonical_name="Pinecrest Packaging",
         country="IN",
         default_currency="INR",
-        aliases=["Apex Systems", "Apex Technologies", "Apex Systems Pvt Ltd", "Apex Systems Private Limited"],
+        aliases=[
+            "Pinecrest Packaging", "Pinecrest Packaging Pvt Ltd", "Pinecrest Packaging Private Limited",
+            "Pinecrest Packaging Ltd", "Apex Systems Pvt Ltd", "Apex Systems"
+        ],
         cities=["bengaluru", "bangalore", "mumbai", "pune", "india"],
         tax_patterns=[r'\b\d{2}[A-Z]{5}\d{4}[A-Z]{1}[A-Z0-9]{3}\b', r'GSTIN']
-    ),
-    VendorInfo(
-        canonical_name="Vanguard Dynamics Ltd",
-        country="UK",
-        default_currency="GBP",
-        aliases=["Vanguard Dynamics", "Vanguard Dynamics Ltd", "Vanguard Dynamics Inc"],
-        cities=["london", "manchester", "birmingham"],
-        tax_patterns=[r'\bGB\d{9}\b']
     )
 ]
 
@@ -154,16 +172,17 @@ def match_vendor(document_text: str) -> VendorResult:
             if combo_score > vendor_max_score:
                 vendor_max_score = combo_score
 
-        # 3. Boost score with secondary evidence (cities, tax patterns)
-        for city in vendor.cities:
-            if re.search(rf'\b{city}\b', text_lower):
-                vendor_max_score += 8.0
-                break
+        # 3. Boost score with secondary evidence (cities, tax patterns) only if base name matches reasonably
+        if vendor_max_score >= 60.0:
+            for city in vendor.cities:
+                if re.search(rf'\b{city}\b', text_lower):
+                    vendor_max_score += 8.0
+                    break
 
-        for tax_pat in vendor.tax_patterns:
-            if re.search(tax_pat, cleaned_text, re.IGNORECASE):
-                vendor_max_score += 15.0
-                break
+            for tax_pat in vendor.tax_patterns:
+                if re.search(tax_pat, cleaned_text, re.IGNORECASE):
+                    vendor_max_score += 15.0
+                    break
 
         if vendor_max_score > best_score:
             best_score = vendor_max_score
@@ -184,6 +203,6 @@ def match_vendor(document_text: str) -> VendorResult:
         canonical_name="unknown",
         country=None,
         default_currency=None,
-        confidence=0.0,
+        confidence=0.20,
         warnings=["Vendor name not in the canonical list."]
     )

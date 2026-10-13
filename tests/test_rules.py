@@ -59,7 +59,7 @@ def test_rule_o3_currency_fallback_to_vendor_default():
 def test_rule_o4_non_invoice_document():
     # Quotation: all fields null, vendor preserved, warning naming doc type
     lines = [
-        LineBox(text="Harbour Engineering Ltd", x0=50, y0=750, x1=200, y1=765),
+        LineBox(text="Blue Harbour Logistics Ltd", x0=50, y0=750, x1=200, y1=765),
         LineBox(text="QUOTATION", x0=50, y0=730, x1=100, y1=745),
         LineBox(text="Total: £500.00", x0=50, y0=600, x1=150, y1=615),
     ]
@@ -71,7 +71,7 @@ def test_rule_o4_non_invoice_document():
         pages=[PageInfo(page_num=1, width=612, height=792, text=full_text, lines=lines)]
     )
     resp = extract_invoice_fields(doc)
-    assert resp.vendor == "Harbour Engineering Ltd"
+    assert resp.vendor == "Blue Harbour Logistics"
     assert resp.invoice_number is None
     assert resp.subtotal is None
     assert resp.total is None

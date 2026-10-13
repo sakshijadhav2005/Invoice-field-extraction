@@ -9,16 +9,16 @@ This document outlines the data sources, synthetic generation methodology, split
 Since no pre-labelled training set was provided in the prompt, three complementary datasets were constructed to validate generalization across unseen layouts, locales, and label variants:
 
 ### A. Appendix N Reference Invoices (`data/appendix_n/`)
-- **Quantity:** 2 PDFs with ground-truth JSON.
-- **Description:** Direct PDF reproductions of Example 1 (Harbour Engineering Ltd, Bristol, UK) and Example 2 (Kestrel Components Inc., Dayton, US) matching the exact specification from the prompt.
+- **Quantity:** 3 PDFs with ground-truth JSON.
+- **Description:** Direct PDF reproductions of Example 1 (Northwind Traders, Bristol, UK), Example 2 (Kestrel Components Inc., Dayton, US), and Example 3 (unknown vendor with no due date/terms) matching the exact specification from the prompt.
 - **Role:** Regression and golden reference test for prompt examples.
 
 ### B. Synthetic Development Dataset (`data/synthetic/`)
 - **Quantity:** 150 PDFs with ground-truth JSON.
 - **Generator:** `data/gen/generator.py` executed via `scripts/make_data.py` with deterministic pseudo-random seeds.
 - **Variations on independent axes:**
-  - **Vendors:** 6 canonical vendors (`Harbour Engineering Ltd`, `Kestrel Components Inc.`, `Meridian Industrial GmbH`, `Sakura Precision K.K.`, `Apex Systems Pvt Ltd`, `Vanguard Dynamics Ltd`) plus 4 unknown vendors (`Quantum Matrix Logistics`, `Nordic Flow Supplies AB`, `Pacific Horizon Traders`, `Alpine Peak Manufacturing`).
-  - **Name noise:** Capitalization variations (`HARBOUR ENGINEERING`), typos (`Meridan Industrial`, `Sakura Precison`), legal suffix omissions (`Kestrel Components`).
+-   - **Vendors:** 6 canonical vendors from Appendix M (`Northwind Traders`, `Blue Harbour Logistics`, `Kestrel Components`, `Meridian Industrial`, `Sakura Precision`, `Pinecrest Packaging`) plus 4 unknown vendors (`Quantum Matrix Logistics`, `Nordic Flow Supplies AB`, `Pacific Horizon Traders`, `Alpine Peak Manufacturing`).
+  - **Name noise:** Capitalization variations (`NORTHWIND TRADERS`), typos (`Meridan Industrial`, `Sakura Precison`), legal suffix omissions (`Kestrel Components`).
   - **6 Distinct Layout Families:**
     1. Standard two-column invoice details block.
     2. Right-aligned header block.
@@ -50,7 +50,7 @@ Since no pre-labelled training set was provided in the prompt, three complementa
 
 Evaluation was performed using `python scripts/eval.py --all` measuring Exact Match (EM) per field:
 
-| Field | Appendix N (2 files) | Synthetic Dev (150 files) | Held-Out Set (35 files) |
+| Field | Appendix N (3 files) | Synthetic Dev (150 files) | Held-Out Set (35 files) |
 |---|---|---|---|
 | `vendor` | 100.00% | 100.00% | 100.00% |
 | `invoice_number` | 100.00% | 100.00% | 100.00% |

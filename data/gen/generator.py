@@ -8,25 +8,34 @@ from reportlab.pdfgen import canvas
 
 CANONICAL_VENDORS_DATA = [
     {
-        "name": "Harbour Engineering Ltd",
+        "name": "Northwind Traders",
+        "country": "UK",
+        "currency": "GBP",
+        "symbol": "£",
+        "city": "14 Quay Street, Bristol BS1 4DB, United Kingdom",
+        "tax_id": "VAT No. GB 123 4567 89",
+        "noise_names": ["NORTHWIND TRADERS LTD", "Northwind Traders", "Northwind Traders Ltd", "Northwind Traders Limited"]
+    },
+    {
+        "name": "Blue Harbour Logistics",
         "country": "UK",
         "currency": "GBP",
         "symbol": "£",
         "city": "Bristol, UK",
-        "tax_id": "VAT No GB123456789",
-        "noise_names": ["Harbour Engineering Ltd", "HARBOUR ENGINEERING", "Harbor Engineering Inc", "Harbour Engineering Limited", "Harbor Engineering"]
+        "tax_id": "VAT No GB987654321",
+        "noise_names": ["Blue Harbour Logistics", "Blue Harbor Logistics", "Blue Harbour Logistics Ltd", "Blue Harbor Logistics Inc"]
     },
     {
-        "name": "Kestrel Components Inc.",
+        "name": "Kestrel Components",
         "country": "US",
         "currency": "USD",
         "symbol": "$",
-        "city": "Dayton, Ohio, USA",
+        "city": "880 Industrial Pkwy, Dayton OH 45402, USA",
         "tax_id": "EIN 31-1234567",
-        "noise_names": ["Kestrel Components Inc.", "KESTREL COMPONENTS INC", "Kestrel Components", "Kestrel Components LLC"]
+        "noise_names": ["Kestrel Components Inc.", "Kestrel Components", "Kestrel Components LLC", "KESTREL COMPONENTS INC"]
     },
     {
-        "name": "Meridian Industrial GmbH",
+        "name": "Meridian Industrial",
         "country": "DE",
         "currency": "EUR",
         "symbol": "€",
@@ -35,7 +44,7 @@ CANONICAL_VENDORS_DATA = [
         "noise_names": ["Meridian Industrial GmbH", "Meridan Industrial GmbH", "Meridian Industrial", "MERIDIAN INDUSTRIAL GMBH"]
     },
     {
-        "name": "Sakura Precision K.K.",
+        "name": "Sakura Precision",
         "country": "JP",
         "currency": "JPY",
         "symbol": "¥",
@@ -44,22 +53,13 @@ CANONICAL_VENDORS_DATA = [
         "noise_names": ["Sakura Precision K.K.", "Sakura Precision", "Sakura Precison KK", "Sakura Precision Co., Ltd."]
     },
     {
-        "name": "Apex Systems Pvt Ltd",
+        "name": "Pinecrest Packaging",
         "country": "IN",
         "currency": "INR",
         "symbol": "₹",
         "city": "Bengaluru, India",
         "tax_id": "GSTIN 29AAAAA0000A1Z5",
-        "noise_names": ["Apex Systems Pvt Ltd", "Apex Technologies Pvt Ltd", "Apex Systems Private Limited", "Apex Systems"]
-    },
-    {
-        "name": "Vanguard Dynamics Ltd",
-        "country": "UK",
-        "currency": "GBP",
-        "symbol": "£",
-        "city": "London, UK",
-        "tax_id": "VAT No GB987654321",
-        "noise_names": ["Vanguard Dynamics Ltd", "Vanguard Dynamics", "VANGUARD DYNAMICS LTD"]
+        "noise_names": ["Pinecrest Packaging Pvt Ltd", "Pinecrest Packaging", "Pinecrest Packaging Private Limited", "Pinecrest Packaging Ltd"]
     }
 ]
 

@@ -1,11 +1,11 @@
 {
-  "vendor": "Kestrel Components Inc.",
+  "vendor": "Blue Harbour Logistics",
   "invoice_number": "RE-2026-1086",
   "invoice_date": "2026-12-14",
   "due_date": null,
   "subtotal": 2230.0,
   "tax": 446.0,
   "total": 2676.0,
-  "currency": "USD",
+  "currency": "GBP",
   "doc_type": "invoice"
 }

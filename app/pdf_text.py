@@ -1,5 +1,5 @@
 import fitz  # PyMuPDF
-from typing import List, Optional, Tuple
+from typing import List, Optional
 from pydantic import BaseModel
 
 class WordBox(BaseModel):

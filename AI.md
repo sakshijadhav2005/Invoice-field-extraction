@@ -25,5 +25,5 @@ AI tooling (Antigravity AI Assistant powered by Gemini) was utilized for the fol
 ## 2. Verification and Code Ownership
 
 - **100% Deterministic Codebase:** All code implemented in the repository consists of standard, inspectable Python modules without black-box or non-deterministic calls.
-- **Full Test Coverage:** 54 automated pytest tests verify all normalizers, business rules (O1–O5), edge cases, and API contracts.
+- **Full Test Coverage:** 58 automated pytest tests verify all normalizers, business rules (O1–O5), edge cases, and API contracts.
 - **Independent Validation:** All extraction logic was tested on both synthetic development and held-out test datasets, verifying that the rules generalize beyond training examples.

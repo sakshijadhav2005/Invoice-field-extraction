@@ -1,11 +1,11 @@
 {
-  "vendor": "Meridian Industrial GmbH",
+  "vendor": "Kestrel Components",
   "invoice_number": "RE-2026-1182",
   "invoice_date": "2026-10-06",
-  "due_date": "2026-12-05",
-  "subtotal": 4160.0,
-  "tax": 748.8,
-  "total": 4908.8,
-  "currency": "EUR",
+  "due_date": "2026-10-20",
+  "subtotal": 1200.0,
+  "tax": 216.0,
+  "total": 1416.0,
+  "currency": "USD",
   "doc_type": "invoice"
 }
