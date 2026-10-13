@@ -5,6 +5,8 @@ from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.schema import ExtractionResponse, ConfidenceScores
+from app.pdf_text import extract_pdf_document
+from app.fields import extract_invoice_fields
 
 app = FastAPI(title="Bruviti Invoice Field Extractor", version="1.0.0")
 
@@ -63,26 +65,29 @@ async def extract_invoice(file: UploadFile = File(...)):
             detail="File content does not have a valid PDF header."
         )
 
-    # Placeholder logic for Phase 1 skeleton (will be wired to pipeline in subsequent phases)
-    response = ExtractionResponse(
-        invoice_number=None,
-        invoice_date=None,
-        due_date=None,
-        subtotal=None,
-        tax=None,
-        total=None,
-        currency=None,
-        vendor="unknown",
-        confidence=ConfidenceScores(
-            invoice_number=0.0,
-            invoice_date=0.0,
-            due_date=0.0,
-            subtotal=0.0,
-            tax=0.0,
-            total=0.0,
-            currency=0.0,
-            vendor=0.0,
-        ),
-        warnings=[]
-    )
-    return response
+    # 4. Extract text layer and structured lines
+    try:
+        doc_info = extract_pdf_document(content)
+    except Exception as e:
+        # Corrupt or encrypted PDF -> return 200 all-null with warning
+        return ExtractionResponse(
+            vendor="unknown",
+            confidence=ConfidenceScores(
+                invoice_number=0.0, invoice_date=0.0, due_date=0.0,
+                subtotal=0.0, tax=0.0, total=0.0, currency=0.0, vendor=0.0
+            ),
+            warnings=[f"Failed to parse PDF document (corrupt or encrypted): {str(e)}"]
+        )
+
+    # 5. Extract invoice fields
+    try:
+        return extract_invoice_fields(doc_info)
+    except Exception as e:
+        return ExtractionResponse(
+            vendor="unknown",
+            confidence=ConfidenceScores(
+                invoice_number=0.0, invoice_date=0.0, due_date=0.0,
+                subtotal=0.0, tax=0.0, total=0.0, currency=0.0, vendor=0.0
+            ),
+            warnings=[f"Extraction error encountered: {str(e)}"]
+        )
