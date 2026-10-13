@@ -1,7 +1,6 @@
 # Plan: Use case 3 — Invoice field extraction (Bruviti Campus Drive 2026)
 
-Start: Tue 13 Oct 2026, 12:47 IST. Hard deadline: Wed 14 Oct 2026, 12:32 IST (about 23h45m left).
-Repo is graded exactly as it stands at the deadline. Commits after it are ignored.
+Repo is graded as a self-contained submission.
 
 ---
 
@@ -92,33 +91,9 @@ Repo layout:
 
 ---
 
-## 2. Timeline (IST). Sleep is built in; shift blocks if you work differently
+## 2. Phase details
 
-Total time left is about 23h45m. Aim for roughly 16 focused hours plus sleep and breaks. The last two hours are a protected buffer. Do not start new features after 10:30 on 14 Oct.
-
-| # | Clock time | Phase | Output |
-|---|---|---|---|
-| 1 | Tue 12:47 – 13:45 | Setup + safety net | Repo, collaborator added, skeleton service live, first commit, **first form submission** |
-| 2 | 13:45 – 16:30 | Data v1: generator + Appendix N PDFs | 150+ labelled PDFs, `eval.py` skeleton |
-| 3 | 16:30 – 18:30 | Normalisers (TDD): dates, amounts, terms, currency | Unit tests green |
-| — | 18:30 – 19:00 | Break / meal | |
-| 4 | 19:00 – 21:30 | PDF text, vendor, doctype | Vendor and doctype accuracy measured |
-| 5 | 21:30 – 00:00 | Field extractors: number, subtotal, tax, total, dates | First end-to-end baseline score. **Commit + resubmit** |
-| 6 | Wed 00:00 – 01:00 | Warnings, confidence, UI page | Contract complete |
-| — | 01:00 – 07:00 | Sleep | |
-| 7 | 07:00 – 09:30 | Held-out stress test + error analysis + fixes | Score on held-out set, failure list |
-| 8 | 09:30 – 10:30 | Docs: README, DATA.md, NOTES.md, AI.md | All four files written |
-| 9 | 10:30 – 11:30 | Release hardening: clean clone, offline, perf | Verified from scratch |
-| 10 | 11:30 – 12:00 | Final submit | Last push + form resubmission |
-| — | 12:00 – 12:32 | Buffer. Do nothing risky | |
-
-The last submission before the deadline counts, so submitting early and often costs nothing.
-
----
-
-## 3. Phase details
-
-### Phase 1 — Setup and safety net (12:47–13:45)
+### Phase 1 — Setup and safety net
 
 1. Create a **private** GitHub repo. Add `bruviti-campus` as collaborator immediately (Settings → Collaborators → Add people). Without this the work counts as not submitted.
 2. `.gitignore`: `venv/`, `.venv/`, `__pycache__/`, `*.pyc`, `.env`, large generated data.
@@ -127,10 +102,10 @@ The last submission before the deadline counts, so submitting early and often co
    - `POST /extract` returns the full schema with nulls, `vendor:"unknown"`, `currency` guess, empty warnings
    - `GET /` serves a placeholder page
 4. `run.sh`: create venv if missing, `pip install -r requirements.txt`, `uvicorn app.main:app --host 0.0.0.0 --port 8000`.
-5. Prove it on a clean folder right now (clone to a temp dir, run). Catching a start problem on hour 1 is much cheaper than at hour 23.
+5. Prove it on a clean folder right now (clone to a temp dir, run). Catching a start problem early is much cheaper.
 6. Commit, push, then **submit the repo link in the form** (select Use case 3). You will resubmit later.
 
-### Phase 2 — Data gathering and generation (13:45–16:30)
+### Phase 2 — Data gathering and generation
 
 The brief supplies no training data. Finding and building it is graded. Plan three sources:
 
@@ -160,7 +135,7 @@ Label vocabulary: a few real public invoice samples (company sample invoices, te
 
 Deliverable of this phase: `python scripts/make_data.py` regenerates everything deterministically (fixed seed), and `scripts/eval.py` prints per-field exact-match accuracy plus a confusion list.
 
-### Phase 3 — Normalisers, test-first (16:30–18:30)
+### Phase 3 — Normalisers, test-first
 
 Write tests before code. Each normaliser is a pure function.
 
@@ -192,7 +167,7 @@ Write tests before code. Each normaliser is a pure function.
 - Fallback to the vendor's Appendix M currency (rule O3) with lowered confidence and a warning
 - If the printed currency conflicts with the vendor's, trust the print and add a warning
 
-### Phase 4 — PDF text, vendor, doctype (19:00–21:30)
+### Phase 4 — PDF text, vendor, doctype
 
 **pdf_text.py**
 - Extract words with coordinates, rebuild lines by clustering on y with a tolerance, keep both a reading-order text and a layout-aware grid.
@@ -211,7 +186,7 @@ Write tests before code. Each normaliser is a pure function.
 - Title and keyword scoring: `invoice`, `tax invoice`, `Rechnung`, `請求書` versus `quotation / quote / estimate`, `delivery note / packing slip`, `statement of account`, `credit note`, `pro forma`.
 - Non-invoice: every field null, vendor as found, warning naming the document type. Decide how to show "vendor as found" for an unmatched name (default: the canonical name if it matches, otherwise the raw header name). Document the choice.
 
-### Phase 5 — Field extractors (21:30–00:00)
+### Phase 5 — Field extractors
 
 Candidate-and-score approach, not first-regex-wins. For each field generate candidates and score them on features, then pick the best and derive confidence from the margin.
 
@@ -231,9 +206,9 @@ Candidate-and-score approach, not first-regex-wins. For each field generate cand
 
 **Evaluation after every change:** run `scripts/eval.py` on dev and on holdout and look at the worst field first.
 
-Milestone (about 00:00): end-to-end baseline. Commit, push, resubmit the form.
+Milestone: end-to-end baseline. Commit, push, resubmit the form.
 
-### Phase 6 — Warnings, confidence, UI (00:00–01:00)
+### Phase 6 — Warnings, confidence, UI
 
 **Warnings** (strings, human-readable, as in the brief's examples):
 - Date resolved by country order (`Date 9/3/26 read as month-first (US vendor).`)
@@ -252,9 +227,9 @@ Milestone (about 00:00): end-to-end baseline. Commit, push, resubmit the form.
 
 **API hardening**: non-PDF upload → 400 with a clear message; empty file → 400; oversize → 413; encrypted or corrupt PDF → 200 all-null plus a warning rather than a crash. Never return a 500 on bad input. Response always matches the schema.
 
-### Phase 7 — Held-out stress test and error analysis (07:00–09:30)
+### Phase 7 — Held-out stress test and error analysis
 
-After sleep, with fresh eyes:
+Testing and error analysis steps:
 1. Run on `handmade/` and `holdout` templates. Record per-field accuracy. This is your honest estimate of the hidden score.
 2. Group failures by cause (label not in lexicon, wrong amount picked, locale parse, date ambiguity, vendor miss, doctype miss). Fix the causes that cost the most points first, with a general fix, not a special case.
 3. Add every fixed failure as a regression test.
@@ -262,7 +237,7 @@ After sleep, with fresh eyes:
 5. Time test: 50 invoices, check the slowest request is under 1 s (aim under 300 ms) including the first request after startup.
 6. Optional stretch, only if everything above is green: small logistic-regression candidate ranker trained on the generator data in under 5 minutes, compared against the rules on holdout. Keep it only if it wins on holdout; otherwise note it in NOTES.md as "tried, not kept".
 
-### Phase 8 — Documentation (09:30–10:30)
+### Phase 8 — Documentation
 
 Write all four files from the actual results, not from the plan.
 
@@ -271,7 +246,7 @@ Write all four files from the actual results, not from the plan.
 - **NOTES.md** (one page at most): decisions (why rules plus candidate scoring, why not a database or React), ambiguity handling by vendor country, what was cut and why, what you would do next (a trained ranker, a layout classifier per vendor, more real samples, an OCR path for scans).
 - **AI.md**: every AI tool used and what for (for example: brainstorming label vocabularies and layout variants, drafting generator code, test ideas). You will be asked to explain your own code, so only keep code you understand.
 
-### Phase 9 — Release hardening (10:30–11:30)
+### Phase 9 — Release hardening
 
 Do this on a clean machine or a fresh clone in a temp folder, not in your working folder.
 
@@ -288,13 +263,13 @@ Checklist:
 - [ ] `bruviti-campus` is a collaborator and the repo is private
 - [ ] Final `git push`, check on github.com that the latest commit is visible
 
-### Phase 10 — Final submission (11:30–12:00)
+### Phase 10 — Final submission
 
-Resubmit the repo link in the form (select Use case 3) even if the link has not changed. Confirm the last commit time is before 12:32 IST. Then stop. Do not push anything risky in the last half hour.
+Resubmit the repo link in the form (select Use case 3) even if the link has not changed. Verify repository and submission integrity.
 
 ---
 
-## 4. Test plan
+## 3. Test plan
 
 | Layer | What | Where |
 |---|---|---|
@@ -309,7 +284,7 @@ Resubmit the repo link in the form (select Use case 3) even if the link has not 
 
 ---
 
-## 5. Risks and mitigations
+## 4. Risks and mitigations
 
 | Risk | Mitigation |
 |---|---|
@@ -322,11 +297,11 @@ Resubmit the repo link in the form (select Use case 3) even if the link has not 
 | Text order scrambled by a PDF producer | Use word coordinates, not raw text order; test with PDFs from two producers |
 | Slow requests | Parse once per request, no heavy models, measure p95 |
 | Time sink on stretch goals | Stretch only after Phase 7 is green; cut and record in NOTES.md |
-| Missed deadline | Early and repeated submissions; freeze at 11:30; buffer to 12:32 |
+| Submission integrity | Early and repeated submissions; freeze code early with protected buffer |
 
 ---
 
-## 6. Open decisions to settle early (write the choice in NOTES.md)
+## 5. Open decisions to settle early (write the choice in NOTES.md)
 
 1. `Due on receipt`: null plus warning, or due date equal to invoice date? (Default: null plus warning.)
 2. Subtotal not printed: null, or derive as total minus tax? (Default: null, because the hidden labels probably follow what is printed.)
@@ -336,9 +311,9 @@ Resubmit the repo link in the form (select Use case 3) even if the link has not 
 
 ---
 
-## 7. Daily rhythm
+## 6. Development Workflow
 
 - Commit at the end of every phase with a clear message. Push every time.
 - Run `pytest` and `scripts/eval.py` before every commit and paste the scores into the commit message.
 - Keep a running list of "things that broke" as you go. It becomes the "what you expect to break" section of DATA.md for free.
-- If a phase runs over by more than 30 minutes, cut scope in the next one instead of eating into sleep or the final buffer.
+- If a phase runs over, prioritize core requirements and adjust scope.
