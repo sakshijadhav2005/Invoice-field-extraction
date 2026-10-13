@@ -1,0 +1,88 @@
+import os
+from pathlib import Path
+from fastapi import FastAPI, File, UploadFile, HTTPException, status
+from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
+
+from app.schema import ExtractionResponse, ConfidenceScores
+
+app = FastAPI(title="Bruviti Invoice Field Extractor", version="1.0.0")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+STATIC_HTML = BASE_DIR / "static" / "index.html"
+MAX_FILE_SIZE = 50 * 1024 * 1024  # 50 MB limit
+
+@app.get("/health")
+def health_check():
+    return {"status": "ok"}
+
+@app.get("/", response_class=HTMLResponse)
+def index_page():
+    if STATIC_HTML.exists():
+        return HTMLResponse(content=STATIC_HTML.read_text(encoding="utf-8"))
+    return HTMLResponse(content="<h1>Invoice Field Extractor</h1><p>Static UI not found.</p>")
+
+@app.post("/extract", response_model=ExtractionResponse)
+async def extract_invoice(file: UploadFile = File(...)):
+    # 1. Validate file presence and filename
+    if not file or not file.filename:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="No file provided")
+    
+    filename_lower = file.filename.lower()
+    if not filename_lower.endswith(".pdf"):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Invalid file format. Only PDF files are supported."
+        )
+
+    # 2. Read bytes and check size
+    content = await file.read()
+    if len(content) == 0:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Uploaded PDF file is empty (0 bytes)."
+        )
+    if len(content) > MAX_FILE_SIZE:
+        raise HTTPException(
+            status_code=status.HTTP_413_REQUEST_ENTITY_TOO_LARGE,
+            detail=f"File exceeds maximum allowed size of {MAX_FILE_SIZE // (1024 * 1024)} MB."
+        )
+
+    # 3. Basic PDF signature check
+    if not content.startswith(b"%PDF"):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="File content does not have a valid PDF header."
+        )
+
+    # Placeholder logic for Phase 1 skeleton (will be wired to pipeline in subsequent phases)
+    response = ExtractionResponse(
+        invoice_number=None,
+        invoice_date=None,
+        due_date=None,
+        subtotal=None,
+        tax=None,
+        total=None,
+        currency=None,
+        vendor="unknown",
+        confidence=ConfidenceScores(
+            invoice_number=0.0,
+            invoice_date=0.0,
+            due_date=0.0,
+            subtotal=0.0,
+            tax=0.0,
+            total=0.0,
+            currency=0.0,
+            vendor=0.0,
+        ),
+        warnings=[]
+    )
+    return response
