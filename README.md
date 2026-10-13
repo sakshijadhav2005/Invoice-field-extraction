@@ -136,7 +136,7 @@ Options:
 ├── scripts/
 │   ├── make_data.py       # Deterministic dataset generation script
 │   └── eval.py            # Accuracy evaluation reporting tool
-├── tests/                 # 54 automated pytest tests
+├── tests/                 # 58 automated pytest tests
 ├── requirements.txt       # Pinned dependencies
 ├── run.sh                 # Linux/macOS launcher
 ├── run.bat                # Windows launcher
