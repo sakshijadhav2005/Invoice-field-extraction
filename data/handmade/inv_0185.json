@@ -1,0 +1,11 @@
+{
+  "vendor": "Harbour Engineering Ltd",
+  "invoice_number": "KC-2026-1185",
+  "invoice_date": "2026-10-21",
+  "due_date": null,
+  "subtotal": 740.0,
+  "tax": 0.0,
+  "total": 740.0,
+  "currency": "GBP",
+  "doc_type": "invoice"
+}

@@ -1,0 +1,11 @@
+{
+  "vendor": "Sakura Precision K.K.",
+  "invoice_number": "RE-2026-1179",
+  "invoice_date": "2026-02-13",
+  "due_date": "2026-03-30",
+  "subtotal": 520.0,
+  "tax": 0.0,
+  "total": 520.0,
+  "currency": "JPY",
+  "doc_type": "invoice"
+}
