@@ -1,4 +1,3 @@
-import pytest
 from app.terms import resolve_due_date
 from app.amounts import parse_amount, format_amount_str
 from app.currency import resolve_currency

@@ -1,4 +1,3 @@
-import pytest
 from app.currency import resolve_currency, CurrencyResult
 
 def test_explicit_printed_currency_symbols():

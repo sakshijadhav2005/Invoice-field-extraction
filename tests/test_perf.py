@@ -1,7 +1,6 @@
 import time
 import statistics
 from pathlib import Path
-import pytest
 from app.pdf_text import extract_pdf_document
 from app.fields import extract_invoice_fields
 

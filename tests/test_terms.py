@@ -1,4 +1,3 @@
-import pytest
 from app.terms import extract_terms_days, resolve_due_date
 
 def test_extract_net_terms():

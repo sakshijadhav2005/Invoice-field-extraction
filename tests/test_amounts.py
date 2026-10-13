@@ -1,4 +1,3 @@
-import pytest
 from app.amounts import parse_amount, format_amount_str
 
 def test_standard_us_uk_amounts():

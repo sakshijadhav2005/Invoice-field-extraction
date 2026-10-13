@@ -1,5 +1,4 @@
 import io
-import pytest
 from reportlab.pdfgen import canvas
 from app.pdf_text import extract_pdf_document
 

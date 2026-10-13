@@ -1,4 +1,3 @@
-import pytest
 from app.vendor import match_vendor, normalize_vendor_name, CANONICAL_VENDORS
 
 def test_normalize_vendor_name():

@@ -1,4 +1,3 @@
-import pytest
 from app.doctype import classify_document, DocTypeResult
 
 def test_classify_standard_invoices():
