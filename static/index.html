@@ -323,6 +323,7 @@
                     <span id="btn-text">Extract Fields</span>
                 </button>
             </div>
+            <div id="error-banner" style="display: none; margin-top: 1rem; padding: 0.85rem 1rem; border-radius: 8px; background: rgba(239, 68, 68, 0.15); border: 1px solid var(--danger); color: #fca5a5; font-size: 0.9rem;"></div>
         </div>
 
         <div class="grid-2" id="results-area" style="display: none;">
@@ -373,6 +374,7 @@
         const jsonViewer = document.getElementById('json-viewer');
         const statusBadge = document.getElementById('status-badge');
         const copyJsonBtn = document.getElementById('copy-json-btn');
+        const errorBanner = document.getElementById('error-banner');
 
         let selectedFile = null;
 
@@ -402,8 +404,9 @@
         });
 
         function handleFile(file) {
+            if (errorBanner) errorBanner.style.display = 'none';
             if (file.type !== 'application/pdf' && !file.name.toLowerCase().endsWith('.pdf')) {
-                alert('Please upload a valid PDF document.');
+                showError('Please select a valid .pdf document.');
                 return;
             }
             selectedFile = file;
@@ -411,9 +414,19 @@
             extractBtn.disabled = false;
         }
 
+        function showError(msg) {
+            if (errorBanner) {
+                errorBanner.style.display = 'block';
+                errorBanner.textContent = 'Upload Error: ' + msg;
+            }
+            statusBadge.className = 'status-badge badge-error';
+            statusBadge.textContent = 'Error';
+        }
+
         extractBtn.addEventListener('click', async () => {
             if (!selectedFile) return;
 
+            if (errorBanner) errorBanner.style.display = 'none';
             extractBtn.disabled = true;
             btnText.innerHTML = '<span class="spinner"></span> Extracting...';
             statusBadge.className = 'status-badge badge-loading';
@@ -438,9 +451,7 @@
                 statusBadge.className = 'status-badge badge-ready';
                 statusBadge.textContent = 'Extracted';
             } catch (err) {
-                alert('Error extracting fields: ' + err.message);
-                statusBadge.className = 'status-badge badge-error';
-                statusBadge.textContent = 'Error';
+                showError(err.message);
             } finally {
                 extractBtn.disabled = false;
                 btnText.textContent = 'Extract Fields';
